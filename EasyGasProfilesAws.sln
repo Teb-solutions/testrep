@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{DA549A0C-9BB5-4C87-A267-B07EDBDFFBA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Profile", "Profile", "{9B0C8353-3E9E-4729-B8B1-47E08EA3EAF3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Profiles.API", "services\profiles\Profiles.API\Profiles.API.csproj", "{D9FA816C-EFD6-4177-B70C-C14D4998C280}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{469AD11E-51A7-492A-8CA1-E48CAFB4F35B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyGas.Shared", "BuildingBlocks\EasyGas.Shared\EasyGas.Shared.csproj", "{65D35935-CB20-4E58-873A-556B6BEA885F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "BuildingBlocks\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{88FC8E1D-9D6A-448C-8391-B5E1D02E916C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "BuildingBlocks\EventBus\EventBus.csproj", "{520EF7E6-782A-4147-B26F-06CF389B555D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{EA6AD5B8-D335-4994-ACB1-27B3481919AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9FA816C-EFD6-4177-B70C-C14D4998C280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9FA816C-EFD6-4177-B70C-C14D4998C280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9FA816C-EFD6-4177-B70C-C14D4998C280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9FA816C-EFD6-4177-B70C-C14D4998C280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D35935-CB20-4E58-873A-556B6BEA885F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D35935-CB20-4E58-873A-556B6BEA885F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D35935-CB20-4E58-873A-556B6BEA885F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D35935-CB20-4E58-873A-556B6BEA885F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88FC8E1D-9D6A-448C-8391-B5E1D02E916C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88FC8E1D-9D6A-448C-8391-B5E1D02E916C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88FC8E1D-9D6A-448C-8391-B5E1D02E916C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88FC8E1D-9D6A-448C-8391-B5E1D02E916C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{520EF7E6-782A-4147-B26F-06CF389B555D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{520EF7E6-782A-4147-B26F-06CF389B555D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{520EF7E6-782A-4147-B26F-06CF389B555D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{520EF7E6-782A-4147-B26F-06CF389B555D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B0C8353-3E9E-4729-B8B1-47E08EA3EAF3} = {DA549A0C-9BB5-4C87-A267-B07EDBDFFBA7}
+		{D9FA816C-EFD6-4177-B70C-C14D4998C280} = {9B0C8353-3E9E-4729-B8B1-47E08EA3EAF3}
+		{65D35935-CB20-4E58-873A-556B6BEA885F} = {469AD11E-51A7-492A-8CA1-E48CAFB4F35B}
+		{88FC8E1D-9D6A-448C-8391-B5E1D02E916C} = {EA6AD5B8-D335-4994-ACB1-27B3481919AA}
+		{520EF7E6-782A-4147-B26F-06CF389B555D} = {EA6AD5B8-D335-4994-ACB1-27B3481919AA}
+		{EA6AD5B8-D335-4994-ACB1-27B3481919AA} = {469AD11E-51A7-492A-8CA1-E48CAFB4F35B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C0CCA4A-62CA-4F11-8F91-1BB2262147E6}
+	EndGlobalSection
+EndGlobal

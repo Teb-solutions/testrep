@@ -1,0 +1,369 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EasyGas Invoice</title>
+    
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            max-height: 1200px;;
+            margin: auto;
+            padding: 20px;
+            font-size: 15px;
+            line-height: 20px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+            border: 1px solid black;
+        }
+    
+    .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+    }
+    
+    .invoice-box table td {
+        padding: 1px;
+        vertical-align: top;
+    }
+    
+    .invoice-box table tr td:nth-child(2) {
+        text-align: right;
+    }
+
+    .invoice-box table tr td.prodDescr{
+        text-align: left;
+    }
+    
+    .invoice-box table tr.top table td {
+        padding-bottom: 5px;
+    }
+    
+    .invoice-box table tr.top table td.title {
+        font-size: 25px;
+        line-height: 10px;
+        color: #333;
+    }
+    
+    .invoice-box table tr.information table td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .invoice-box table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+    
+    .invoice-box table tr.details td {
+        padding-bottom: 10px;
+    }
+    .deliveryInfo table tr td{
+        padding-bottom: 5px;
+    }
+    
+    .invoice-box table tr.item.last td {
+        border-bottom: none;
+    }
+
+    .invoice-box table tr.total td{
+        padding-top: 20px;
+        padding-bottom: 15px;
+        font-weight: bold;
+    }
+    
+    .invoice-box table tr.total td:nth-child(2) {
+        padding-bottom: 2px;
+        font-weight: bold;
+    }
+    .invoice-box table tr th{
+        padding-bottom : 2px;
+    }
+
+    .invoice-box table.itemTable{
+        border: solid 1px #0000;
+     }
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+        
+        .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+    
+    /** RTL **/
+    .rtl {
+        direction: rtl;
+        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+    
+    .rtl table {
+        text-align: right;
+    }
+    
+    .rtl table tr td:nth-child(2) {
+        text-align: left;
+    }
+    .order-details{
+        max-height: 130px;
+        
+    }
+    .order-details div h5{
+        display: inline-block;
+    }
+    .order-details>div{
+        margin: none;
+        padding: none;
+    }
+    .invDet{
+        margin: 0px;
+        display: inline-block;
+    }
+    .itemTable{
+        padding-top: 10px;
+    }
+    
+    </style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2" style="border:1px solid; padding:5px; padding-right:10px; padding-left:10px;">
+                   
+                        <h2 style="text-align:center;">Tax Invoice</h2>
+                    
+                    <div class="order-details" style="display: inline-block; float:right;">
+                            
+                            <h5 class="invDet">ORIGINAL FOR RECIPIENT</h5><br />                        
+                            <h5 class="invDet">Inv No : </h5>
+                            <span class="invSpan">{Inv-No}</span>
+                            <h5 class="invDet">Date : </h5>
+                            <span class="invSpan">{Inv-Date}</span>
+                            <br>
+                            <h5 class="invDet">PO No : </h5>
+                            <span class="invSpan">{PO-No}</span>
+                            <h5 class="invDet">Date : </h5>
+                            <span class="invSpan">{PO-Date}</span>
+                            <br>
+                            <h5 class="invDet">E-Way Bill No  : </h5>
+                            <span class="invSpan">{Eway-No}</span>
+                            <br>
+                            <h5 class="invDet">Order No : </h5>
+                            <span class="invSpan">{Order-No}</span>
+                            <h5 class="invDet">Date : </h5>
+                            <span class="invSpan">{Order-Date}</span>
+                        
+                    </div>
+                    <div>
+                        <h2 style="margin-bottom: 0px;">{DistributorName}</h2><br>
+                        <span style="display:block; padding-bottom:10px;">{DistributorDetails}</span>
+                        <span style="display:block; padding-bottom:10px;">{State}</span>
+                        <span style="display:block; padding-bottom:10px; font-weight: bold">GSTIN : {DistributorGst}</span>
+                        <span style="display:block; padding-bottom:10px; font-weight: bold">PAN No : {DistributorPan}</span>
+
+                    </div>
+                </td>
+            </tr>
+            
+            <tr class="information">
+                <td colspan="2" style="border: 1px solid; border-top:none; border-bottom: none; padding:0px; margin:0px;">
+                    <div style="        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-right: 1px solid #333;">
+                        <h4 style="text-align: center; padding: 10px; margin: 0">Bill To</h4>
+                        <div style="border-bottom: 1px solid #333; border-top: 1px solid #333; text-align: left; padding: 10px">
+                            Customer No : {CustomerNo}<br />
+                            {UserName}.<br>
+                            {Address}<br>
+                            {PhoneNumber}<br>
+                            {Email}
+                        </div>
+                        <div style="padding: 10px">
+                            <b>Place of Supply : </b> {PlaceOfSupply} <br />
+                        </div>
+                    </div>
+                    <div style="float: right; width: 50%;">
+                        <h4 style="text-align: center; padding: 10px; margin: 0;">Ship To</h4>
+                        <div  style="border-bottom: 1px solid #333; border-top: 1px solid #333; text-align: left; padding: 10px;">
+                            Customer No : {CustomerNo}<br />
+                            {UserName}.<br>
+                            {Address}<br>
+                            {PhoneNumber}<br>
+                            {Email}
+                        </div>
+                        <div style="padding: 10px">
+
+                        </div>
+                    </div>
+                    <!--
+                    <table>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;text-align: center">
+                                Bill To
+                            </td>
+
+                            <td style="text-align: center; font-weight: bold;">
+                                Ship To
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid; text-align:left;">
+                                Customer No : {CustomerNo}<br />
+                                {UserName}.<br>
+                                {Address}<br>
+                                State Code : {StateCode}<br />
+                                {PhoneNumber}<br>
+                                {Email}
+                            </td>
+
+                            <td style="border: 1px solid; text-align:left;">
+                                Customer No : {CustomerNo}<br />
+                                {UserName}.<br>
+                                {Address}<br>
+                                State Code : {StateCode}<br />
+                                {PhoneNumber}<br>
+                                {Email}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;">
+                                <table class='deliveryInfo' style=" border: 1px solid; padding:5px;">
+                                    <tr>
+                                        <td style="padding-bottom: 5px; width: 150px; font-weight:bold;">Place of Supply : </td>
+                                        <td style="padding-bottom: 5px;">{PlaceOfSupply}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 5px; width: 150px; font-weight:bold; ">Cust GST No : </td>
+                                        <td style="padding-bottom: 5px;">{CustGstNo}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 5px; width: 150px; font-weight:bold;" ">State Code : </td>
+                                        <td style="padding-bottom: 5px;">{StateCode}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="padding: 0px;">
+                                <table class='deliveryInfo' style=" border: 1px solid; padding:5px;">
+                                    <tr>
+                                        <td style="padding-bottom: 25px; width: 150px; font-weight:bold;"> </td>
+                                        <td style="padding-bottom: 25px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 5px; width: 150px; font-weight:bold; ">Cust GST No : </td>
+                                        <td style="padding-bottom: 5px;">{CustGstNo}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 5px; width: 150px; font-weight:bold;" ">State Code : </td>
+                                        <td style="padding-bottom: 5px;">{StateCode}</td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    -->
+                </td>
+            </tr>
+            <tr class="details">
+                <td colspan="3" style="border:1px solid; border-top: none; border-bottom: none; padding: 0">
+                    <table class="itemTable" border="1" cellspacing="0" style="margin:0; padding:0;">
+                        <thead>
+                            <tr style="background-color:lightgray;">
+                                <th style="text-align:center">Sl No</th>
+                                <th style="text-align:center">Product Description</th>
+                                <th style="text-align:center">HSN/SAC</th>
+                                <th style="text-align:center">Quantity</th>
+                                <th style="text-align:center">UOM</th>
+                                <th style="text-align:center">Unit Price</th>
+                                <th style="text-align:center">Basic Amount</th>
+                                <th style="text-align:center">Net Taxable Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <!--{itemTable} -->
+                         {TableBody}
+                        </tbody>
+                      </table>
+                </td>
+            </tr>
+            <tr class="item">
+                <td colspan="3" style="border: 1px solid black; border-top:none;">
+                    <table class="amountTable">
+                        <thead>
+                          <tr style="background-color:lightgray;">
+                            <th style="text-align:center">GST</th>
+                            <th style="text-align:center">Rate</th>
+                            <th style="text-align:center">Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align:center">CGST</td>
+                                <td style="text-align:center">2.5%</td>
+                                <td style="text-align:center">{CGSTAmount}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">SGST</td>
+                                <td style="text-align:center">2.5%</td>
+                                <td style="text-align:center">{SGSTAmount}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center">IGST</td>
+                                <td style="text-align:center">-</td>
+                                <td style="text-align:center">-</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td style="text-align:center;font-weight: bold">Total Tax Amount</td>
+                                <td style="text-align:center">5%</td>
+                                <td style="text-align: center;font-weight: bold">{TaxAmount}</td>
+                            </tr>
+                        </tfoot>
+                      </table>
+                </td>
+                
+            </tr>
+            
+            
+            <tr class="total" >
+                <td style="border: 1px solid black; border-top:none; border-right:none; padding-left:5px;">
+                    Total: Rs {TotalAmount}<br />
+                    Tax Subject to Reverse Charge : No
+
+                </td>
+                
+                <td style="float: left; width:450px; height: 75px; border: 1px solid black; border-top:none; border-left:none; padding-right:5px;">
+                    {TotalAmountInWords}<br />
+                    
+                </td>
+            </tr>
+            <tr class="declaration">
+                <td style="padding-top: 20px; font-size:smaller;border: 1px solid black; border-top:none; border-right:none; padding-left:5px;">
+                    <span style="font-weight:bold;">Declaration : </span> We declare that this invoice shows the actual price of the goods described and the particulars are true and correct. 
+                </td>
+                
+                <td style="padding-top: 20px; border: 1px solid black; border-top:none; border-left:none; text-align:left; padding-left:250px;">
+                    For<br>
+                    {DistributorName}<br />
+                    
+                </td>
+            </tr>
+            <tr><td colspan="2">This is a computer-generated invoice, Hence does not require signature.</td></tr>
+        </table>
+    </div>
+</body>
+</html>
