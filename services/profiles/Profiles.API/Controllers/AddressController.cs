@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using EasyGas.Shared.Models;
-using AutoMapper;
 
 namespace Profiles.API.Controllers
 {

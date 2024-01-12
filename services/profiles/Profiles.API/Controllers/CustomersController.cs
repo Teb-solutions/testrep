@@ -29,7 +29,6 @@ using Profiles.API.ViewModels.Relaypoint;
 using EasyGas.Services.Profiles.Models.AdminWebsiteVM;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
-using AutoMapper;
 
 namespace Profiles.API.Controllers
 {

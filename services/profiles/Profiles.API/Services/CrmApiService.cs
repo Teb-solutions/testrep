@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using Profiles.API.ViewModels;
 using Profiles.API.ViewModels.Crm;
 using System.Net.Http.Headers;
-using Org.BouncyCastle.Ocsp;
 
 namespace Profiles.API.Services
 {

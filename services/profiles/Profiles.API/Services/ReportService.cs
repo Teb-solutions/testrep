@@ -46,7 +46,7 @@ namespace EasyGas.Services.Profiles.Services
                     {
                         ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add(table.TableName);
                         worksheet.Cells["A1"].LoadFromDataTable(table, true);
-                        worksheet.Cells.Style.Font.SetFromFont(new Font("Calibri", 10));
+                        worksheet.Cells.Style.Font.SetFromFont("Calibri", 10);
                         worksheet.Cells.AutoFitColumns();
                         //Format the header    
                         using (ExcelRange objRange = worksheet.Cells["A1:XFD1"])

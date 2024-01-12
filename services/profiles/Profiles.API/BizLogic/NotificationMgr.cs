@@ -25,7 +25,6 @@ using EasyGas.Shared.Models;
 using Profiles.API.IntegrationEvents;
 using EasyGas.BuildingBlocks.EventBus.Events;
 using Profiles.API.ViewModels;
-using MassTransit.Scoping.CourierContexts;
 
 namespace EasyGas.Services.Profiles.BizLogic
 {
