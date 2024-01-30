@@ -5,7 +5,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 
-ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_ENVIRONMENT=Staging
 ENV ASPNETCORE_URLS=https://+:443
 
 WORKDIR /app
