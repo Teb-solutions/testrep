@@ -97,18 +97,18 @@ Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
     aiOptions.EnableDependencyTrackingTelemetryModule = false;
     */
 
-    var telemetryConfiguration = TelemetryConfiguration
-      .CreateDefault();
-    telemetryConfiguration.InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"];
+    //var telemetryConfiguration = TelemetryConfiguration
+    //  .CreateDefault();
+    //telemetryConfiguration.InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"];
 
     return new LoggerConfiguration()
         .MinimumLevel.Verbose()
         .Enrich.WithProperty("ApplicationContext", Program.AppName)
         .Enrich.FromLogContext()
         .WriteTo.Console()
-        .WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
+        //.WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
         //.WriteTo.MicrosoftTeams(teamsWebhookUrl, titleTemplate: "Error Logs", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
-        .WriteTo.ApplicationInsights(telemetryConfiguration, TelemetryConverter.Traces)
+        //.WriteTo.ApplicationInsights(telemetryConfiguration, TelemetryConverter.Traces)
         //.WriteTo.Http(string.IsNullOrWhiteSpace(logstashUrl) ? "http://logstash:8080" : logstashUrl)
         .ReadFrom.Configuration(configuration)
         .CreateLogger();
