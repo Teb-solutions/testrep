@@ -154,7 +154,7 @@ namespace EasyGas.Services.Profiles
 
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule());
-            container.RegisterModule(new EventBusModule());
+            //container.RegisterModule(new EventBusModule());
 
             //services.AddScoped<ExpressOrderCreatedIntegrationEventConsumer>();
             //services.AddMassTransitHostedService();

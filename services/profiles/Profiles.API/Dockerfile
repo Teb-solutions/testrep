@@ -15,6 +15,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 COPY ["services/profiles/Profiles.API/Profiles.API.csproj", "services/profiles/Profiles.API/"]
+RUN apk add ca-certificates
 RUN dotnet restore "services/profiles/Profiles.API/Profiles.API.csproj"
 COPY . .
 WORKDIR "/src/services/profiles/Profiles.API"
