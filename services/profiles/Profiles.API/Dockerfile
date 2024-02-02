@@ -18,6 +18,7 @@ COPY ["services/profiles/Profiles.API/Profiles.API.csproj", "services/profiles/P
 RUN dotnet restore "services/profiles/Profiles.API/Profiles.API.csproj"
 COPY . .
 WORKDIR "/src/services/profiles/Profiles.API"
+RUN dotnet dev-certs https
 RUN dotnet build "Profiles.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
