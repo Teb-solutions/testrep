@@ -124,6 +124,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="tebpfx2023.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="wkhtmltopdf\Windows\wkhtmltopdf.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
