@@ -9,7 +9,7 @@
     <AllowUntrustedCertificate>True</AllowUntrustedCertificate>
     <ApplicationInsightsResourceId>/subscriptions/646dd59b-660f-47ea-8eee-a6f600abdf76/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/EasyGas.Services.Profiles</ApplicationInsightsResourceId>
     <UserSecretsId>bf465f63-2ac3-401d-aed9-07b7ed317176</UserSecretsId>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>

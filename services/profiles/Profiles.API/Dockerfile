@@ -1,29 +1,31 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
-
+#USER app
 ENV ASPNETCORE_ENVIRONMENT=Staging
 ENV ASPNETCORE_URLS=https://+:443
 
-WORKDIR /app
+WORKDIR /
 EXPOSE 80
 EXPOSE 443
 
+COPY services/profiles/Profiles.API/tebpfx2023.pfx /https/tebpfx2023.pfx
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["services/profiles/Profiles.API/Profiles.API.csproj", "services/profiles/Profiles.API/"]
-RUN apk add ca-certificates
-RUN dotnet restore "services/profiles/Profiles.API/Profiles.API.csproj"
+COPY ["BuildingBlocks/EasyGas.Shared/EasyGas.Shared.csproj", "BuildingBlocks/EasyGas.Shared/"]
+COPY ["BuildingBlocks/EventBus/EventBus.csproj", "BuildingBlocks/EventBus/"]
+COPY ["BuildingBlocks/IntegrationEventLogEF/IntegrationEventLogEF.csproj", "BuildingBlocks/IntegrationEventLogEF/"]
+RUN dotnet restore "./services/profiles/Profiles.API/./Profiles.API.csproj"
 COPY . .
 WORKDIR "/src/services/profiles/Profiles.API"
-RUN dotnet dev-certs https
-RUN dotnet build "Profiles.API.csproj" -c Release -o /app/build
+RUN dotnet build "./Profiles.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Profiles.API.csproj" -c Release -o /app/publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Profiles.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

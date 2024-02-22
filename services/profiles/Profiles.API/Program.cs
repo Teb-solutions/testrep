@@ -63,6 +63,10 @@ var configuration = GetConfiguration();
             .CaptureStartupErrors(false)
             .ConfigureKestrel(options =>
     {
+        options.ConfigureHttpsDefaults(httpsOption =>
+        {
+            httpsOption.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2("tebpfx2023.pfx", "teb123");
+        });
         /*
         var ports = GetDefinedPorts(configuration);
         options.Listen(IPAddress.Any, ports.httpPort, listenOptions =>
