@@ -63,7 +63,7 @@ namespace Profiles.API.IntegrationEvents.Consumers
                     TenantId = @event.TenantId,
                     Vehicles = await _queries.GetAllListForPlanning(@event.TenantId, @event.BranchId, null, true)
                 };
-                await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@planningEvent);
+                //await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@planningEvent);
 
                 _logger.LogInformation("Profiles.API CustomerDeliveryOrderConfirmedIntegrationEventConsumer consumed successfully. Confirmed Order Id : {newOrderId}", @event.OrderId);
             }

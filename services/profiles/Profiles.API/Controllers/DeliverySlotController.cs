@@ -189,7 +189,7 @@ namespace EasyGas.Services.Profiles.Controllers
                     IsSlotExpress = slotEntity.Type == Shared.Enums.SlotType.SLOT_EXPRESS,
                     NewPrice = slotEntity.Price
                 };
-                await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@event);
+                //await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@event);
             }
 
             return Ok(slot);

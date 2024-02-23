@@ -56,6 +56,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Hangfire.Dashboard;
+using Profiles.API.IntegrationEvents;
 
 namespace EasyGas.Services.Profiles
 {
@@ -132,6 +133,7 @@ namespace EasyGas.Services.Profiles
             services.AddTransient<IImportService, ImportService>();
             services.AddTransient<PulzConnectMgr, PulzConnectMgr>();
             services.AddTransient<CrmMgr, CrmMgr>();
+            //services.AddTransient<IProfilesIntegrationEventService, ProfilesIntegrationEventService>();
 
             services.AddHangfire(config => config
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
@@ -153,11 +155,11 @@ namespace EasyGas.Services.Profiles
                  .InstancePerLifetimeScope();
 
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule());
+            //container.RegisterModule(new ApplicationModule());
             //container.RegisterModule(new EventBusModule());
 
             //services.AddScoped<ExpressOrderCreatedIntegrationEventConsumer>();
-            //services.AddMassTransitHostedService();
+            services.AddMassTransitHostedService();
 
             var build = container.Build();
 
@@ -402,7 +404,7 @@ namespace EasyGas.Services.Profiles
                 var hcBuilder = services.AddHealthChecks();
 
                 hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
-
+            /*
                 hcBuilder
                     .AddSqlServer(
                         configuration["ConnectionStrings:DefaultConnection"],
@@ -419,11 +421,13 @@ namespace EasyGas.Services.Profiles
                         tags: new string[] { "profileblobstorage" });
             }
 
+            
             hcBuilder
                     .AddRabbitMQ(
                         $"{configuration["EventBusSettings:HostAddress"]}",
                         name: "profiles-rabbitmqbus-check",
                         tags: new string[] { "rabbitmqbus" });
+            */
 
             //services.AddHealthChecksUI().AddInMemoryStorage();
             /*

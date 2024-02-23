@@ -26,6 +26,7 @@ namespace Profiles.API.Infrastructure.AutofacModules
                 //x.AddConsumers(typeof(ConsumerOne), typeof(ConsumerTwo));
 
                 // add the bus to the container
+                
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("amqp://tebsadmin:tebsadmin112233@localhost:5672");
@@ -99,6 +100,7 @@ namespace Profiles.API.Infrastructure.AutofacModules
                     // or, configure the endpoints by convention
                     //cfg.ConfigureEndpoints(context);
                 });
+                
             });
 
             builder.RegisterType<CustomerExpressOrderCreatedIntegrationEventConsumer>()

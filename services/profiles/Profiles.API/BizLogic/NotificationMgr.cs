@@ -34,16 +34,16 @@ namespace EasyGas.Services.Profiles.BizLogic
         private readonly ILogger _logger;
         private readonly IOptions<ApiSettings> _apiSettings;
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly IProfilesIntegrationEventService _profilesIntegrationEventService;
+        //private readonly IProfilesIntegrationEventService _profilesIntegrationEventService;
 
         public NotificationMgr(ProfilesDbContext db, IOptions<ApiSettings> apiSettings,
-            BlobServiceClient blobServiceClient, IProfilesIntegrationEventService profilesIntegrationEventService,
+            BlobServiceClient blobServiceClient, /* IProfilesIntegrationEventService profilesIntegrationEventService,*/
             ILoggerFactory loggerFactory)
         {
             _db = db;
             _apiSettings = apiSettings;
             _blobServiceClient = blobServiceClient;
-            _profilesIntegrationEventService = profilesIntegrationEventService;
+            //_profilesIntegrationEventService = profilesIntegrationEventService;
             _logger = loggerFactory.CreateLogger<NotificationMgr>();
         }
 
@@ -353,7 +353,7 @@ namespace EasyGas.Services.Profiles.BizLogic
                         IsUserCustomer = true,
                         UserMobileList = request.UserMobileList
                     };
-                    await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@event);
+                    //await _profilesIntegrationEventService.PublishEventThroughEventBusAsync(@event);
                 
                 return new CommandResult(System.Net.HttpStatusCode.OK, new { Detail = "Notifications is being sent in the background." });
             }

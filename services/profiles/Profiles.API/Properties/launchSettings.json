@@ -49,10 +49,6 @@
         "ASPNETCORE_ENVIRONMENT": "Iocl.Production"
       }
     },
-    "Docker": {
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:{ServicePort}/api/profiles"
-    },
     "EasyGas.Services.Profiles": {
       "commandName": "Project",
       "launchBrowser": true,
@@ -62,11 +58,15 @@
       },
       "applicationUrl": "http://localhost:5000/"
     },
-    "Docker (1)": {
+    "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger/ui",
-      "publishAllPorts": true
+      "publishAllPorts": true,
+      "useSSL": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
     }
   }
 }
