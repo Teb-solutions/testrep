@@ -457,6 +457,7 @@ namespace EasyGas.Services.Profiles
             {
                 services.AddDbContext<ProfilesDbContext>(options =>
                 {
+                    /*
                     options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"],
                         sqlServerOptionsAction: sqlOptions =>
                         {
@@ -465,9 +466,17 @@ namespace EasyGas.Services.Profiles
                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             //sqlOptions.CommandTimeout(60);
                         });
+                    */
+
+                    options.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"],
+                    npgsqlOptionsAction: options =>
+                    {
+                        options.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        options.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), null);
+                    });
                 },
-                           ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
-                       );
+                       ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
+                   );
 
             /*
                 services.AddDbContext<IntegrationEventLogContext>(options =>

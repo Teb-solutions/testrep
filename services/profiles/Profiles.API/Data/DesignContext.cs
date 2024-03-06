@@ -19,7 +19,7 @@ namespace EasyGas.Services.Profiles.Models
             IConfigurationRoot configuration = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            //.AddJsonFile("appsettings.json")
-           .AddJsonFile($"appsettings.Iocl.Production.json")
+           .AddJsonFile($"appsettings.Staging.json")
            .Build();
 
             
@@ -30,7 +30,8 @@ namespace EasyGas.Services.Profiles.Models
             //optionsBuilder.UseSqlServer("Server =easygasservicesprofilesdbserver.database.windows.net;Database=EasyGasProfileDB; user id=ntn@easygasservicesprofilesdbserver; password=Tebs1234; MultipleActiveResultSets=true;");
             //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=easygas-services-profiles; user id=ntn; password=tebs1234; MultipleActiveResultSets=true;");
             //optionsBuilder.UseSqlServer("Server=easygasdb1.westindia.cloudapp.azure.com,1433;Database=EasyGasProfileDB1; user id=toiri_admin; password=54EwU=q(4Nzu; MultipleActiveResultSets=true;");
-            optionsBuilder.UseSqlServer(connectionString, x => x.UseNetTopologySuite());
+            //optionsBuilder.UseSqlServer(connectionString, x => x.UseNetTopologySuite());
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new ProfilesDbContext(optionsBuilder.Options);
         }

@@ -16,6 +16,8 @@ using System.Net;
 using EasyGas.Services.Profiles;
 using Serilog;
 using Microsoft.ApplicationInsights.Extensibility;
+using EasyGas.Services.Profiles.Data;
+using Microsoft.EntityFrameworkCore;
 
 var configuration = GetConfiguration();
 
@@ -26,7 +28,13 @@ var configuration = GetConfiguration();
         Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
         var host = BuildWebHost(configuration, args);
 
-    //Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+    Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+
+    using (var scope = host.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ProfilesDbContext>();
+        db.Database.Migrate();
+    }
 
     /*
     host.MigrateDbContext<OrderingContext>((context, services) =>
@@ -65,7 +73,7 @@ var configuration = GetConfiguration();
     {
         options.ConfigureHttpsDefaults(httpsOption =>
         {
-            httpsOption.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2("tebpfx2023.pfx", "teb123");
+            httpsOption.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2("teb202425.pfx", "teb2025!!");
         });
         /*
         var ports = GetDefinedPorts(configuration);

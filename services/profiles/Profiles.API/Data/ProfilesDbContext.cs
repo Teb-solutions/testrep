@@ -22,7 +22,9 @@ namespace EasyGas.Services.Profiles.Data
         public ProfilesDbContext(DbContextOptions<ProfilesDbContext> options)
             : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
+
         private IDbContextTransaction _currentTransaction;
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
         public bool HasActiveTransaction => _currentTransaction != null;
