@@ -24,7 +24,7 @@ using System;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     public class DistributorsController : BaseApiController
     {
         private readonly IProfileQueries _queries;

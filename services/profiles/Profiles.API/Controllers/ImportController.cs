@@ -44,7 +44,7 @@ using Gender = EasyGas.Services.Profiles.Models.Gender;
 namespace EasyGas.Services.Profiles.Controllers
 {
     [Authorize(Roles = "TENANT_ADMIN")]
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class ImportController : BaseApiController
     {

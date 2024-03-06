@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace Profiles.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [Authorize(Roles = "TENANT_ADMIN, BRANCH_ADMIN, CUSTOMER_CARE, CUSTOMER_CARE_ADMIN")]
     public class AnalyticsController : BaseApiController
     {

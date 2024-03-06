@@ -9,7 +9,7 @@ using Profiles.API.Controllers;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [Authorize]
     public partial class VehiclesController : BaseApiController
     {

@@ -17,7 +17,7 @@ using EasyGas.Shared.Models;
 
 namespace Profiles.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [Authorize]
     public class AddressController : BaseApiController
     {

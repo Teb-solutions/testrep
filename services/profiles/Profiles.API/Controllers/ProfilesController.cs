@@ -17,7 +17,7 @@ using Profiles.API.ViewModels.PulzConnect;
 namespace Profiles.API.Controllers
 {
     [Authorize(Roles = "TENANT_ADMIN, BRANCH_ADMIN, VITE_ADMIN, CUSTOMER_CARE, CUSTOMER_CARE_ADMIN")]
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     public class ProfilesController : BaseApiController
     {
         private readonly IProfileQueries _queries;

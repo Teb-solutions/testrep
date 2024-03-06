@@ -20,7 +20,7 @@ using Profiles.API.Services;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("profiles/api/[controller]/[action]")]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class TestController : BaseApiController
     {

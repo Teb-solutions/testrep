@@ -12,7 +12,7 @@ namespace EasyGas.Services.Profiles.Controllers
 {
     [ApiController]
     [Authorize(Roles = "TENANT_ADMIN, BRANCH_ADMIN, VITE_ADMIN, CUSTOMER_CARE")]
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     public class DashboardController : BaseApiController
     {
         private readonly IProfileQueries _profileQueries;

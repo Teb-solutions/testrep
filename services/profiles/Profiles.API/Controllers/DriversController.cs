@@ -29,7 +29,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class DriversController : BaseApiController
     {

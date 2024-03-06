@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Profiles.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     public class AccountController : BaseApiController
     {
         private readonly ILogger<AccountController> _logger;

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [Authorize(Roles = "TENANT_ADMIN, VITE_ADMIN, CUSTOMER_CARE")]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public class BranchesController : BaseApiController

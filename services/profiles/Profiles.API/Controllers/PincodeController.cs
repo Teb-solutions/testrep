@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     public class PincodeController : BaseApiController
     {
         private readonly ProfilesDbContext _db;

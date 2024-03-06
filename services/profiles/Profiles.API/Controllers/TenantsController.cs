@@ -13,7 +13,7 @@ using System.Net;
 namespace EasyGas.Services.Profiles.Controllers
 {
     [Authorize]
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class TenantsController : BaseApiController
     {

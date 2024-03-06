@@ -31,7 +31,7 @@ using VehicleState = EasyGas.Services.Profiles.Models.VehicleState;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("profiles/api/v1/[controller]")]
     [Authorize(Roles = "DISTRIBUTOR_ADMIN, DEALER_ADMIN, ALDS_ADMIN")]
     public class BusinessEntityController : BaseApiController
     {
