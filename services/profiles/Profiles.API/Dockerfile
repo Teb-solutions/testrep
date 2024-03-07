@@ -9,7 +9,7 @@ WORKDIR /
 EXPOSE 80
 EXPOSE 443
 
-COPY services/profiles/Profiles.API/tebpfx2023.pfx /https/tebpfx2023.pfx
+COPY services/profiles/Profiles.API/teb202425.pfx /https/teb202425.pfx
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
