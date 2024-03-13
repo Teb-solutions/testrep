@@ -135,6 +135,7 @@ namespace EasyGas.Services.Profiles
             services.AddTransient<CrmMgr, CrmMgr>();
             //services.AddTransient<IProfilesIntegrationEventService, ProfilesIntegrationEventService>();
 
+            /*
             services.AddHangfire(config => config
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
@@ -142,6 +143,7 @@ namespace EasyGas.Services.Profiles
                 .UseMemoryStorage()
             );
             services.AddHangfireServer();
+            */
 
             //configure autofac
 
@@ -227,21 +229,23 @@ namespace EasyGas.Services.Profiles
             //app.UseStaticFiles();
             //app.UseDefaultFiles();
 
-            app.UseHangfireDashboard("/jobs", new DashboardOptions
-            {
-                IsReadOnlyFunc = (DashboardContext context) => true
-            });
-            BackgroundJob.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
+           // app.UseHangfireDashboard("/jobs", new DashboardOptions
+           // {
+            //    IsReadOnlyFunc = (DashboardContext context) => true
+           // });
+            //BackgroundJob.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
             /*
             RecurringJob.AddOrUpdate("cancelPreviousPickupOrders",
                 () => serviceProvider.GetService<IJobMgr>().CancelYesterdaysPickupOrdersOfDriver(),
                 "1 * * * *" // every hour first min
             ); 
             */
-            RecurringJob.AddOrUpdate("runNotificationCronJob",
-                () => serviceProvider.GetService<IJobMgr>().RunNotificationCronJob(),
-                "*/30 * * * *" //every 30 min
-            );
+
+           // RecurringJob.AddOrUpdate("runNotificationCronJob",
+           //     () => serviceProvider.GetService<IJobMgr>().RunNotificationCronJob(),
+            //    "*/30 * * * *//" //every 30 min
+           // );
+            
 
             app.UseEndpoints(endpoints =>
             {
