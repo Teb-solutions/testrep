@@ -81,6 +81,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.0" />
     <PackageReference Include="NReco.PdfGenerator.LT" Version="1.2.1" />
     <PackageReference Include="Razorpay" Version="3.1.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />

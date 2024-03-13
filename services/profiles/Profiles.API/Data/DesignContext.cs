@@ -31,7 +31,7 @@ namespace EasyGas.Services.Profiles.Models
             //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=easygas-services-profiles; user id=ntn; password=tebs1234; MultipleActiveResultSets=true;");
             //optionsBuilder.UseSqlServer("Server=easygasdb1.westindia.cloudapp.azure.com,1433;Database=EasyGasProfileDB1; user id=toiri_admin; password=54EwU=q(4Nzu; MultipleActiveResultSets=true;");
             //optionsBuilder.UseSqlServer(connectionString, x => x.UseNetTopologySuite());
-            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.UseNpgsql(connectionString, x => x.UseNetTopologySuite());
 
             return new ProfilesDbContext(optionsBuilder.Options);
         }

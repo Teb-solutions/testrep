@@ -10,7 +10,7 @@ namespace Profiles.API.Controllers
     {
         public IActionResult Index()
         {
-            return new RedirectResult("~/swagger/ui");
+            return new RedirectResult("~/profiles/swagger/ui");
         }
     }
 }

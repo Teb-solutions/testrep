@@ -119,11 +119,13 @@ namespace EasyGas.Services.Profiles.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("postgis");
+
             modelBuilder.SetStringMaxLengthConvention(255);
 
             // One to one between users and profiles where FK is on
             // profiles (UserId)
-            
+
             modelBuilder.Entity<UserProfile>()
                 .HasOne<User>(c => c.User)
                 .WithOne(u => u.Profile)
@@ -247,7 +249,6 @@ namespace EasyGas.Services.Profiles.Data
             .HasConversion(
                 v => v.ToString(),
                 v => (FuelType)Enum.Parse(typeof(FuelType), v));
-
         }
 
         public DbSet<Tenant> Tenants { get; set; }

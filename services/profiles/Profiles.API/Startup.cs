@@ -199,7 +199,7 @@ namespace EasyGas.Services.Profiles
             });
 #endif
 
-            if (env.IsDevelopment() || env.IsStaging() || env.IsEnvironment("Iocl.Production"))
+            if (env.IsDevelopment() || env.IsStaging())
             {
                 app.UseDeveloperExceptionPage();
                 //app.UseDatabaseErrorPage();
@@ -207,7 +207,7 @@ namespace EasyGas.Services.Profiles
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Easygas Profiles API");
-                    options.RoutePrefix = "swagger/ui";
+                    options.RoutePrefix = "profiles/swagger/ui";
                     options.DefaultModelsExpandDepth(1);
                 });
             }
@@ -471,6 +471,7 @@ namespace EasyGas.Services.Profiles
                     options.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"],
                     npgsqlOptionsAction: options =>
                     {
+                        options.UseNetTopologySuite();
                         options.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                         options.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), null);
                     });
