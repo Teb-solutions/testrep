@@ -196,7 +196,7 @@ namespace EasyGas.Services.Profiles
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyGas Profile Services API");
-                options.RoutePrefix = "docs";
+                options.RoutePrefix = "profiles/swagger/ui";
                 options.DefaultModelsExpandDepth(1);
             });
 #endif
@@ -208,7 +208,7 @@ namespace EasyGas.Services.Profiles
                 //app.UseBrowserLink();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Easygas Profiles API");
+                    options.SwaggerEndpoint("/profiles/swagger/v1/swagger.json", "Easygas Profiles API");
                     options.RoutePrefix = "profiles/swagger/ui";
                     options.DefaultModelsExpandDepth(1);
                 });
