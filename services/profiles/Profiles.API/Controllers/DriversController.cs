@@ -29,7 +29,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
-    [Route("profiles/api/v1/[controller]")]
+    [Route("services/profiles/api/v1/[controller]")]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class DriversController : BaseApiController
     {
@@ -67,6 +67,7 @@ namespace EasyGas.Services.Profiles.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [Route("login")]
         [HttpPost]
         [ProducesResponseType(typeof(ApiValidationErrors), (int)HttpStatusCode.BadRequest)]
@@ -87,6 +88,25 @@ namespace EasyGas.Services.Profiles.Controllers
             return await _identityService.Authenticate(loginModel, GetIpAddress());
         }
 
+        [Authorize(AuthenticationSchemes = "Cognito")]
+        [HttpGet]
+        [Route("cognito/profile")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCognitoProfile()
+        {
+            var cognitouserId = _identityService.GetCognitoUserId();
+            var cognitousername = _identityService.GetCognitoUsername();
+            /*
+            var driver = await _profileQueries.GetDriverProfileByUserId(userId);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+            */
+            return Ok(new {cognitouserId, cognitousername});
+        }
+
+        [Authorize(AuthenticationSchemes = "Cognito")]
         [HttpGet]
         [Route("profile")]
         [ProducesResponseType(typeof(DriverProfileModel), (int)HttpStatusCode.OK)]

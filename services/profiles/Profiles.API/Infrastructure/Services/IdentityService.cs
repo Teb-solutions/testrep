@@ -45,6 +45,18 @@ namespace Profiles.API.Infrastructure.Services
             _logger = logger;
         }
 
+        public string GetCognitoUserId()
+        {
+            string sub = _context.HttpContext.User.FindFirst("sub").Value;
+            return sub;
+        }
+
+        public string GetCognitoUsername()
+        {
+            string username = _context.HttpContext.User.FindFirst("username").Value;
+            return username;
+        }
+
         public int GetUserIdentity()
         {
             string idString = _context.HttpContext.User.FindFirst("sub").Value;

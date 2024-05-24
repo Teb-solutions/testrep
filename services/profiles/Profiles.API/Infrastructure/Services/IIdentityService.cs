@@ -22,5 +22,7 @@ namespace Profiles.API.Infrastructure.Services
         Task<CommandResult> ChangePassword(ChangePasswordModel request, int userId);
 
         IEnumerable<string> ValidatePasswordPolicy(UserType type, string newPassword);
+        string GetCognitoUserId();
+        string GetCognitoUsername();
     }
 }

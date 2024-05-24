@@ -187,7 +187,10 @@ namespace EasyGas.Services.Profiles
             //loggerFactory.AddApplicationInsights(app.ApplicationServices, Microsoft.Extensions.Logging.LogLevel.Information);
 
 
-            app.UseSwagger();
+            app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "services/profiles/swagger/{documentName}/swagger.json";
+                });
 
 #if (DEBUG)
             app.UseDeveloperExceptionPage();
@@ -195,8 +198,8 @@ namespace EasyGas.Services.Profiles
             //app.UseBrowserLink();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyGas Profile Services API");
-                options.RoutePrefix = "profiles/swagger/ui";
+                options.SwaggerEndpoint("/services/profiles/swagger/v1/swagger.json", "EasyGas Profile Services API");
+                options.RoutePrefix = "services/profiles/swagger/ui";
                 options.DefaultModelsExpandDepth(1);
             });
 #endif
@@ -208,8 +211,8 @@ namespace EasyGas.Services.Profiles
                 //app.UseBrowserLink();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint("/profiles/swagger/v1/swagger.json", "Easygas Profiles API");
-                    options.RoutePrefix = "profiles/swagger/ui";
+                    options.SwaggerEndpoint("/services/profiles/swagger/v1/swagger.json", "Easygas Profiles API");
+                    options.RoutePrefix = "services/profiles/swagger/ui";
                     options.DefaultModelsExpandDepth(1);
                 });
             }
@@ -710,6 +713,40 @@ namespace EasyGas.Services.Profiles
 
             services.AddAuthentication(options =>
             {
+                options.DefaultAuthenticateScheme = "Cognito";
+                options.DefaultChallengeScheme = "Cognito";
+            })
+            .AddJwtBearer("Cognito", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["Cognito:Issuer"],
+                    ValidateAudience = false,
+                    //ValidAudience = configuration["Cognito:Audience"],
+                    ValidateLifetime = true,
+                    //IssuerSigningKey = new SymmetricSecurityKey(
+                       // Convert.FromBase64String(Configuration["Jwt:ALB:SecretKey"]))
+                };
+            })
+            .AddJwtBearer("APIGateway", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["Cognito:Issuer"],
+                    ValidateAudience = false,
+                    //ValidAudience = configuration["Cognito:Audience"],
+                    ValidateLifetime = true,
+                    //IssuerSigningKey = new SymmetricSecurityKey(
+                        //Convert.FromBase64String(Configuration["Jwt:APIGateway:SecretKey"]))
+                };
+            });
+
+
+            /*
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
@@ -730,6 +767,7 @@ namespace EasyGas.Services.Profiles
                 };
 
             });
+            */
 
             /*
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
@@ -746,7 +784,7 @@ namespace EasyGas.Services.Profiles
                     options.Audience = "orders";
                 });
             */
-                return services;
+            return services;
         }
     }
 }
