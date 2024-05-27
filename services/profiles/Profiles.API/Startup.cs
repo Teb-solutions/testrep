@@ -724,20 +724,22 @@ namespace EasyGas.Services.Profiles
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
-                    {
+                    //IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
+                    //{
                         // get JsonWebKeySet from AWS
-                        var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                        //var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
                         // serialize the result
-                        var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                        //var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
                         // cast the result to be the type expected by IssuerSigningKeyResolver
-                        return (IEnumerable<SecurityKey>)keys;
-                    },
-                    ValidateIssuer = true,
-                    ValidIssuer = configuration["Cognito:Issuer"],
+                        //return (IEnumerable<SecurityKey>)keys;
+                    //},
+                    ValidateIssuerSigningKey = false,  // Disable signature validation
+                    RequireSignedTokens = false,
+                    ValidateIssuer = false,
+                    //ValidIssuer = configuration["Cognito:Issuer"],
                     ValidateAudience = false,
-                    ValidAudience = configuration["Cognito:AppClientID"],
-                    ValidateLifetime = true,
+                    //ValidAudience = configuration["Cognito:AppClientID"],
+                    ValidateLifetime = false,
                 };
             })
             .AddJwtBearer("APIGateway", options =>
