@@ -32,6 +32,8 @@ namespace Profiles.API.Infrastructure.Services
         private ICartService _cartService;
         private ICrmApiService _crmApiService;
         private ILogger _logger;
+        private string _gigyaIdp = "GigyaB2BPP";
+        private string _azureADIdp = "AadLiftPP";
 
         public IdentityService(ProfilesDbContext db, IOptions<ApiSettings> appSettings, IHttpContextAccessor context,
             IJWTUtils jWTUtils, ICartService cartService, ICrmApiService crmApiService, ILogger<IdentityService> logger)
@@ -53,8 +55,26 @@ namespace Profiles.API.Infrastructure.Services
 
         public string GetCognitoUsername()
         {
-            string username = _context.HttpContext.User.FindFirst("username").Value;
-            return username;
+            string cognitoUsername = _context.HttpContext.User.FindFirst("username").Value;
+            return cognitoUsername;
+        }
+
+        public string GetCognitoIdpUsername()
+        {
+            string cognitoUsername = _context.HttpContext.User.FindFirst("username").Value;
+            if (!string.IsNullOrEmpty(cognitoUsername))
+            {
+                if (cognitoUsername.StartsWith(_gigyaIdp))
+                {
+                    return cognitoUsername.Replace(_gigyaIdp + "_", "");
+                }
+                else if (cognitoUsername.StartsWith(_azureADIdp))
+                {
+                    return cognitoUsername.Replace(_azureADIdp + "_", "");
+                }
+            }
+
+            return null;
         }
 
         public int GetUserIdentity()

@@ -59,6 +59,7 @@ using Hangfire.Dashboard;
 using Profiles.API.IntegrationEvents;
 using System.Net;
 using Newtonsoft.Json;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace EasyGas.Services.Profiles
 {
@@ -726,13 +727,14 @@ namespace EasyGas.Services.Profiles
                 {
                     //IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
                     //{
-                        // get JsonWebKeySet from AWS
-                        //var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
-                        // serialize the result
-                        //var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
-                        // cast the result to be the type expected by IssuerSigningKeyResolver
-                        //return (IEnumerable<SecurityKey>)keys;
+                    // get JsonWebKeySet from AWS
+                    //var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                    // serialize the result
+                    //var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                    // cast the result to be the type expected by IssuerSigningKeyResolver
+                    //return (IEnumerable<SecurityKey>)keys;
                     //},
+                    SignatureValidator = (token, _) => new JsonWebToken(token),
                     ValidateIssuerSigningKey = false,  // Disable signature validation
                     RequireSignedTokens = false,
                     ValidateIssuer = false,

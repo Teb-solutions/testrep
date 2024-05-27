@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Profiles.API.Controllers;
+using Profiles.API.Infrastructure.Services;
 
 namespace EasyGas.Services.Profiles.Controllers
 {
@@ -16,27 +17,30 @@ namespace EasyGas.Services.Profiles.Controllers
         private readonly IVehicleQueries _queries;
         private readonly IProfileQueries _profileQueries;
         private readonly IBusinessEntityQueries _businessEntityQueries;
-
+        private readonly IIdentityService _identityService;
 
         public VehiclesController(IVehicleQueries queries,
             IProfileQueries profileQueries,
             IBusinessEntityQueries businessEntityQueries,
+            IIdentityService identityService,
             ICommandBus bus)
             : base(bus)
         {
             _queries = queries;
             _profileQueries = profileQueries;
             _businessEntityQueries = businessEntityQueries;
+            _identityService = identityService;
         }
 
-        //[Authorize(AuthenticationSchemes = "Cognito")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Cognito")]
+        //[AllowAnonymous]
         [Route("GetTestData")]
         [HttpGet]
         public async Task<IActionResult> GetTestData([FromQuery] int? tenantId, [FromQuery] int? branchId, [FromQuery] int? businessEntityId)
         {
+            var username = _identityService.GetCognitoIdpUsername();
             var token = Request.Headers["Authorization"];
-            return Ok(new {tenantId, branchId, token});
+            return Ok(new {tenantId, branchId, token, username});
         }
 
         [Authorize]

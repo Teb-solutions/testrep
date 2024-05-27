@@ -24,5 +24,6 @@ namespace Profiles.API.Infrastructure.Services
         IEnumerable<string> ValidatePasswordPolicy(UserType type, string newPassword);
         string GetCognitoUserId();
         string GetCognitoUsername();
+        string GetCognitoIdpUsername();
     }
 }
