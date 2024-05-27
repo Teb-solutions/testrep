@@ -17,6 +17,7 @@ namespace EasyGas.Services.Profiles.Controllers
         private readonly IProfileQueries _profileQueries;
         private readonly IBusinessEntityQueries _businessEntityQueries;
 
+
         public VehiclesController(IVehicleQueries queries,
             IProfileQueries profileQueries,
             IBusinessEntityQueries businessEntityQueries,
@@ -28,12 +29,14 @@ namespace EasyGas.Services.Profiles.Controllers
             _businessEntityQueries = businessEntityQueries;
         }
 
-        [Authorize(AuthenticationSchemes = "Cognito")]
+        //[Authorize(AuthenticationSchemes = "Cognito")]
+        [AllowAnonymous]
         [Route("GetTestData")]
         [HttpGet]
         public async Task<IActionResult> GetTestData([FromQuery] int? tenantId, [FromQuery] int? branchId, [FromQuery] int? businessEntityId)
         {
-            return Ok(new {tenantId, branchId});
+            var token = Request.Headers["Authorization"];
+            return Ok(new {tenantId, branchId, token});
         }
 
         [Authorize]
