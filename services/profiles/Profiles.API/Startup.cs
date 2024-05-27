@@ -57,6 +57,8 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using Hangfire.Dashboard;
 using Profiles.API.IntegrationEvents;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace EasyGas.Services.Profiles
 {
@@ -710,6 +712,8 @@ namespace EasyGas.Services.Profiles
             var tokenSecretKey = Encoding.ASCII.GetBytes(configuration["ApiSettings:JwtTokenPrivateKey"]);
             var tokenIssuer = configuration["ApiSettings:JwtTokenIssuer"];
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var tokenAud = configuration["Cognito:AppClientID"];
+            var ValidIssuer = configuration["Cognito:Issuer"];
 
             services.AddAuthentication(options =>
             {
@@ -720,13 +724,20 @@ namespace EasyGas.Services.Profiles
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
+                    {
+                        // get JsonWebKeySet from AWS
+                        var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                        // serialize the result
+                        var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                        // cast the result to be the type expected by IssuerSigningKeyResolver
+                        return (IEnumerable<SecurityKey>)keys;
+                    },
                     ValidateIssuer = true,
                     ValidIssuer = configuration["Cognito:Issuer"],
                     ValidateAudience = false,
-                    //ValidAudience = configuration["Cognito:Audience"],
+                    ValidAudience = configuration["Cognito:AppClientID"],
                     ValidateLifetime = true,
-                    //IssuerSigningKey = new SymmetricSecurityKey(
-                       // Convert.FromBase64String(Configuration["Jwt:ALB:SecretKey"]))
                 };
             })
             .AddJwtBearer("APIGateway", options =>

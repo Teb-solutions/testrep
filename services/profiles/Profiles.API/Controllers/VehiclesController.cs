@@ -28,7 +28,12 @@ namespace EasyGas.Services.Profiles.Controllers
             _businessEntityQueries = businessEntityQueries;
         }
 
-
+        [Authorize(AuthenticationSchemes = "Cognito")]
+        [HttpGet]
+        public async Task<IActionResult> GetTestData([FromQuery] int? tenantId, [FromQuery] int? branchId, [FromQuery] int? businessEntityId)
+        {
+            return Ok(new {tenantId, branchId});
+        }
 
         [Authorize]
         [HttpGet]
