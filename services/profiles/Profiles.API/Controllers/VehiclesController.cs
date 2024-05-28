@@ -36,8 +36,8 @@ namespace EasyGas.Services.Profiles.Controllers
             _logger = logger;
         }
 
-        [Authorize(AuthenticationSchemes = "Cognito")]
-        //[AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = "Cognito")]
+        [AllowAnonymous]
         [Route("GetTestData")]
         [HttpGet]
         public async Task<IActionResult> GetTestData([FromQuery] int? tenantId, [FromQuery] int? branchId, [FromQuery] int? businessEntityId)
