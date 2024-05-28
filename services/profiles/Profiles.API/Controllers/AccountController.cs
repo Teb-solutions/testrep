@@ -151,5 +151,16 @@ namespace Profiles.API.Controllers
             var users = await _profileQueries.GetBackendUsers(tenantId, branchId);
             return Ok(users);
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("details")]
+        [ProducesResponseType(typeof(IEnumerable<BackendUserProfileModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetMyAccountDetails()
+        {
+            var cognitoUsername = _identityService.GetCognitoUsername();
+            var userDetails = await _profileQueries.GetUserByCognitoUsername(cognitoUsername);
+            return Ok(userDetails);
+        }
     }
 }

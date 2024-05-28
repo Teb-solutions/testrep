@@ -6,9 +6,12 @@ using System.ComponentModel.DataAnnotations ;
 using System.ComponentModel.DataAnnotations.Schema;
 using Profiles.API.Models;
 using EasyGas.Shared.Enums;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
 
 namespace EasyGas.Services.Profiles.Models
 {
+    [Index(nameof(CognitoUsername))]
     public class User : Trackable
     {
         [Key]
@@ -19,6 +22,15 @@ namespace EasyGas.Services.Profiles.Models
         [Display(Name = "User Name")]
         public string UserName { get; set; }
         public DateTime? LastLogin { get; set; }
+        
+        [Display(Name = "Cognito Username")]
+        [MaxLength(50)]
+        public string? CognitoUsername { get; set; }
+        public bool? IsApproved {  get; set; }
+        public DateTime? ApprovedAt { get; set; }
+        public int? ApprovedBy { get; set; }
+        [ForeignKey("ApprovedBy")]
+        public virtual User ApprovedByUser { get; set; }
 
         public string Password { get; set; }
         public UserType Type { get; set; }
