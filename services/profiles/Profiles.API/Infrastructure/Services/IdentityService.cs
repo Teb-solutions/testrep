@@ -20,6 +20,7 @@ using Profiles.API.ViewModels;
 using System.Text.RegularExpressions;
 using EasyGas.Shared.Models;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Profiles.API.Infrastructure.Services
 {
@@ -75,6 +76,42 @@ namespace Profiles.API.Infrastructure.Services
             }
 
             return null;
+        }
+
+        public string GetCognitoIdp()
+        {
+            string cognitoUsername = _context.HttpContext.User.FindFirst("username").Value;
+            if (!string.IsNullOrEmpty(cognitoUsername))
+            {
+                if (cognitoUsername.StartsWith(_gigyaIdp))
+                {
+                    return _gigyaIdp;
+                }
+                else if (cognitoUsername.StartsWith(_azureADIdp))
+                {
+                    return _azureADIdp;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Riders, Vendors etc
+        /// </summary>
+        /// <returns></returns>
+        public bool IsB2B()
+        {
+            return GetCognitoIdp() == _gigyaIdp;
+        }
+
+        /// <summary>
+        /// Total staffs
+        /// </summary>
+        /// <returns></returns>
+        public bool IsB2E()
+        {
+            return GetCognitoIdp() == _azureADIdp;
         }
 
         public int GetUserIdentity()
@@ -448,6 +485,60 @@ namespace Profiles.API.Infrastructure.Services
             _logger.LogInformation("Register New User Created | userType: " + registerModel.Type + "username: " + registerModel.UserName);
 
             return new CommandResult(HttpStatusCode.OK, new CreateProfileResponse{ UserId = user.Id });
+        }
+
+        public async Task<CommandResult> CreateUnapprovedUser(CreateUserModel registerModel, string cognitoUsername)
+        {
+            if (registerModel == null)
+            {
+                return CommandResult.FromValidationErrors("Invalid data ");
+            }
+
+            var existing = _db.Users.Any(x => x.CognitoUsername == cognitoUsername && x.Type == registerModel.Type);
+            if (existing)
+            {
+                return CommandResult.FromValidationErrors($"Username ({cognitoUsername}) already exists.");
+            }
+
+            if (!string.IsNullOrEmpty(registerModel.Code))
+            {
+                var existingCode = _db.Profiles.Any(x => x.Code == registerModel.Code);
+                if (existingCode)
+                {
+                    return CommandResult.FromValidationErrors($"Code ({registerModel.Code}) already exists.");
+                }
+            }
+
+            var tenant = await _db.Tenants.FirstOrDefaultAsync();
+
+            User user = new User()
+            {
+                TenantId = tenant.Id,
+                CreationType = registerModel.CreationType,
+                OtpValidated = false,
+                CognitoUsername = cognitoUsername,
+                UserName = registerModel.UserName,
+                Type = registerModel.Type,
+                IsApproved = false,
+                Profile = new UserProfile()
+                {
+                    FirstName = registerModel.FirstName,
+                    LastName = registerModel.LastName,
+                    AgreedTerms = true,
+                    Code = registerModel.Code,
+                    Email = registerModel.Email,
+                    Mobile = registerModel.Mobile,
+                    Source = registerModel.Source
+                }
+            };
+            //user.Roles.Add(new UserRole(role.Id));
+
+            _db.Users.Add(user);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation("CreateUnapprovedUser Created | userType: " + registerModel.Type + "username: " + cognitoUsername);
+
+            return new CommandResult(HttpStatusCode.OK, new CreateProfileResponse { UserId = user.Id });
         }
 
         public async Task<CommandResult> ChangePassword(ChangePasswordModel request,int userId)

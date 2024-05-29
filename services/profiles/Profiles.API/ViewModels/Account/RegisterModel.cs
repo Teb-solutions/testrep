@@ -25,4 +25,19 @@ namespace Profiles.API.ViewModels.Account
         public CreationType CreationType { get; set; }
         public Source? Source { get; set; }
     }
+
+    public class CreateUserModel
+    {
+        //public string CognitoUsername { get; set; }
+        public string UserName { get; set; }
+        public string Code { get; set; }
+        public UserType Type { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
+        public string RoleName { get; set; }
+        public CreationType CreationType { get; set; }
+        public Source? Source { get; set; }
+    }
 }

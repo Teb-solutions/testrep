@@ -136,6 +136,7 @@ namespace EasyGas.Services.Profiles
             services.AddTransient<IImportService, ImportService>();
             services.AddTransient<PulzConnectMgr, PulzConnectMgr>();
             services.AddTransient<CrmMgr, CrmMgr>();
+            services.AddTransient<ITokenService, TokenService>();
             //services.AddTransient<IProfilesIntegrationEventService, ProfilesIntegrationEventService>();
 
             /*
@@ -229,7 +230,8 @@ namespace EasyGas.Services.Profiles
 
             app.UseCors("CorsPolicy");
             app.UseRouting();
-            
+            app.UseMiddleware<TokenMiddleware>();
+
             ConfigureAuth(app);
 
             //app.UseStaticFiles();
@@ -713,13 +715,11 @@ namespace EasyGas.Services.Profiles
             var tokenSecretKey = Encoding.ASCII.GetBytes(configuration["ApiSettings:JwtTokenPrivateKey"]);
             var tokenIssuer = configuration["ApiSettings:JwtTokenIssuer"];
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            var tokenAud = configuration["Cognito:AppClientID"];
-            var ValidIssuer = configuration["Cognito:Issuer"];
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "Cognito";
-                options.DefaultChallengeScheme = "Cognito";
+                options.DefaultAuthenticateScheme = "Easygas";
+                options.DefaultChallengeScheme = "Easygas";
             })
             .AddJwtBearer("Cognito", options =>
             {
@@ -744,17 +744,16 @@ namespace EasyGas.Services.Profiles
                     ValidateLifetime = false,
                 };
             })
-            .AddJwtBearer("APIGateway", options =>
+            .AddJwtBearer("Easygas", options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = configuration["Cognito:Issuer"],
+                    ValidIssuer = tokenIssuer,
                     ValidateAudience = false,
                     //ValidAudience = configuration["Cognito:Audience"],
-                    ValidateLifetime = true,
-                    //IssuerSigningKey = new SymmetricSecurityKey(
-                        //Convert.FromBase64String(Configuration["Jwt:APIGateway:SecretKey"]))
+                    ValidateLifetime = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(tokenSecretKey)
                 };
             });
 

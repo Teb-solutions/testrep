@@ -25,5 +25,9 @@ namespace Profiles.API.Infrastructure.Services
         string GetCognitoUserId();
         string GetCognitoUsername();
         string GetCognitoIdpUsername();
+        bool IsB2E();
+        bool IsB2B();
+        string GetCognitoIdp();
+        Task<CommandResult> CreateUnapprovedUser(CreateUserModel registerModel, string cognitoUsername);
     }
 }

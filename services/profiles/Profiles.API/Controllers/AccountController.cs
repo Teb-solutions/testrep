@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Profiles.API.Controllers
 {
-    [Route("profiles/api/v1/[controller]")]
+    [Route("services/profiles/api/v1/[controller]")]
     public class AccountController : BaseApiController
     {
         private readonly ILogger<AccountController> _logger;
@@ -152,7 +152,7 @@ namespace Profiles.API.Controllers
             return Ok(users);
         }
 
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "Cognito")]
         [HttpGet]
         [Route("details")]
         [ProducesResponseType(typeof(IEnumerable<BackendUserProfileModel>), (int)HttpStatusCode.OK)]
@@ -160,7 +160,19 @@ namespace Profiles.API.Controllers
         {
             var cognitoUsername = _identityService.GetCognitoUsername();
             var userDetails = await _profileQueries.GetUserByCognitoUsername(cognitoUsername);
+            if (userDetails == null) return BadRequest("User not found");
+
             return Ok(userDetails);
+        }
+
+        [Authorize(AuthenticationSchemes = "Cognito")]
+        [Route("createuser")]
+        [HttpPost]
+        [ProducesResponseType(typeof(CreateProfileResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreateUnApprovedUser([FromBody] CreateUserModel request)
+        {
+            var cognitoUsername = _identityService.GetCognitoUsername();
+            return await _identityService.CreateUnapprovedUser(request, cognitoUsername);
         }
     }
 }

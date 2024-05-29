@@ -779,8 +779,6 @@ namespace EasyGas.Services.Profiles.Queries
 
         public async Task<BackendUserProfileModel> GetUserByCognitoUsername(string cognitoUsername)
         {
-            List<BackendUserProfileModel> backendUsersList = new List<BackendUserProfileModel>();
-
             var user = await _ctx.Users
                 .Include(p => p.Profile)
                 .Include(p => p.Branch)
@@ -789,9 +787,13 @@ namespace EasyGas.Services.Profiles.Queries
                 .Where(p => p.CognitoUsername == cognitoUsername)
                 .FirstOrDefaultAsync();
 
- 
-            BackendUserProfileModel model = BackendUserProfileModel.FromUser(user);
-            return model;
+            if (user != null)
+            {
+                BackendUserProfileModel model = BackendUserProfileModel.FromUser(user);
+                return model;
+            }
+
+            return null;
         }
 
         private string GetPhotoUrl(string photoUrl)

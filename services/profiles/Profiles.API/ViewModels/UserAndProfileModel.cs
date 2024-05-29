@@ -181,6 +181,7 @@ namespace EasyGas.Services.Profiles.Models
 
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string CognitoUsername { get; set; }
         public UserType Type { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -202,6 +203,7 @@ namespace EasyGas.Services.Profiles.Models
                 Type = user.Type,
                 UserId = user.Id,
                 UserName = user.UserName,
+                CognitoUsername = user.CognitoUsername,
                 Roles = user.Roles?.Select(p => p.Role.DisplayName).ToList()
             };
         }
