@@ -45,47 +45,49 @@ namespace Profiles.API.Infrastructure
                         {
                             var currentJwt = new JwtSecurityTokenHandler().ReadJwtToken(currentToken);
                             var issuer = currentJwt.Claims.Where(p => p.Type == "iss").FirstOrDefault().Value;
-                            if (issuer != null && issuer != _appSettings.JwtTokenIssuer)
+                            if (issuer != null)
                             {
-                                // generate custom token with user details
-                                var userDetails = await _tokenService.GetUserDetailsAsync(currentJwt);
-                                if (userDetails != null)
+                                if (issuer != _appSettings.JwtTokenIssuer)
                                 {
-                                    // create custom jwt token with user details
-                                    var jwtToken = _tokenService.GenerateJwtToken(userDetails);
-                                    context.Request.Headers["Authorization"] = $"Bearer {jwtToken}";
-                                    _logger.LogInformation($"Profiles.TokenMiddleware Custom jwt token generated {jwtToken}");
-                                    //await _next(context);
-                                }
-                                else
-                                {
-                                    await ReturnErrorResponse(context, "User not found. Please contact admin.");
-
-                                    /*
-                                    // if token is b2e, add new user in profile service as approval pending
-                                    if (_identityService.IsB2E())
+                                    // generate custom token with user details
+                                    var userDetails = await _tokenService.GetUserDetailsAsync(currentJwt);
+                                    if (userDetails != null)
                                     {
-                                        var cognitoDataToken = context.Request.Headers["x-amzn-oidc-data"].FirstOrDefault();
+                                        // create custom jwt token with user details
+                                        var jwtToken = _tokenService.GenerateJwtToken(userDetails);
+                                        context.Request.Headers["Authorization"] = $"Bearer {jwtToken}";
+                                        _logger.LogInformation($"Profiles.TokenMiddleware Custom jwt token generated {jwtToken}");
+                                        //await _next(context);
+                                    }
+                                    else
+                                    {
+                                        _logger.LogCritical($"Profiles.TokenMiddleware Not Authorized {currentToken}");
+                                        await ReturnErrorResponse(context, "User not found. Please contact admin.");
 
-                                        if (!string.IsNullOrEmpty(cognitoDataToken))
+                                        /*
+                                        // if token is b2e, add new user in profile service as approval pending
+                                        if (_identityService.IsB2E())
                                         {
-                                            var createUserResponse = await _tokenService.CreateUnApprovedUserInProfilesAsync(cognitoToken, cognitoDataToken);
-                                            if (createUserResponse.isSuccess)
+                                            var cognitoDataToken = context.Request.Headers["x-amzn-oidc-data"].FirstOrDefault();
+
+                                            if (!string.IsNullOrEmpty(cognitoDataToken))
                                             {
-                                                _logger.LogInformation($"EasyGasAdminAws.TokenMiddleware New backend user created {createUserResponse.profileResponse.UserId} {cognitoToken}");
-                                                await ReturnErrorResponse(context, "User is pending approval from admin. Please contact admin for approval.");
-                                            }
-                                            else
-                                            {
-                                                _logger.LogCritical($"EasyGasAdminAws.TokenMiddleware New user creation error: {createUserResponse.validationDetails?.Detail} token: {cognitoToken} data token: {cognitoDataToken}");
-                                                await ReturnErrorResponse(context, createUserResponse.validationDetails?.Detail);
+                                                var createUserResponse = await _tokenService.CreateUnApprovedUserInProfilesAsync(cognitoToken, cognitoDataToken);
+                                                if (createUserResponse.isSuccess)
+                                                {
+                                                    _logger.LogInformation($"EasyGasAdminAws.TokenMiddleware New backend user created {createUserResponse.profileResponse.UserId} {cognitoToken}");
+                                                    await ReturnErrorResponse(context, "User is pending approval from admin. Please contact admin for approval.");
+                                                }
+                                                else
+                                                {
+                                                    _logger.LogCritical($"EasyGasAdminAws.TokenMiddleware New user creation error: {createUserResponse.validationDetails?.Detail} token: {cognitoToken} data token: {cognitoDataToken}");
+                                                    await ReturnErrorResponse(context, createUserResponse.validationDetails?.Detail);
+                                                }
                                             }
                                         }
+                                        */
                                     }
-                                    */
                                 }
-
-                                _logger.LogCritical($"Profiles.TokenMiddleware Not Authorized {currentToken}");
                             }
                             else
                             {

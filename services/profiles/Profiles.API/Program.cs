@@ -34,6 +34,61 @@ var configuration = GetConfiguration();
     {
         var db = scope.ServiceProvider.GetRequiredService<ProfilesDbContext>();
         db.Database.Migrate();
+
+        #region Seed data
+        var tenant = db.Tenants.FirstOrDefault();
+        if (tenant == null)
+        {
+            db.Tenants.Add(new EasyGas.Services.Profiles.Models.Tenant
+            {
+                Name = "TotalEnergies"
+            });
+            db.SaveChanges();
+        }
+
+        var branch = db.Branches.FirstOrDefault();
+        if (branch == null)
+        {
+            db.Branches.Add(new EasyGas.Services.Profiles.Models.Branch
+            {
+                Name = "Branch 1",
+                IsActive = true,
+                CallCenterNumber = "0000000000",
+                TenantId = db.Tenants.First().Id,
+                Email = "jayadev.chandran@external.totalenergies.com",
+                Mobile = "0000000000",
+                Lat = 12,
+                Lng = 77,
+                Location = "",
+            });
+            db.SaveChanges();
+        }
+
+        var adminUser = db.Users.Where(p => p.Type == EasyGas.Shared.Enums.UserType.ADMIN).FirstOrDefault();
+        if (adminUser == null)
+        {
+            db.Users.Add(new EasyGas.Services.Profiles.Models.User
+            {
+                TenantId = db.Tenants.First().Id,
+                CognitoUsername = "AadLiftPP_jayadev.chandran@external.totalenergies.com",
+                UserName = "AadLiftPP_jayadev.chandran@external.totalenergies.com",
+                CreationType = EasyGas.Services.Profiles.Models.CreationType.USER,
+                IsApproved = true,
+                Type = EasyGas.Shared.Enums.UserType.ADMIN,
+                IsDeleted = false,
+                ApprovedAt = DateTime.Now,
+                Profile = new EasyGas.Services.Profiles.Models.UserProfile
+                {
+                    AgreedTerms = true,
+                    IsDeleted = false,
+                    FirstName = "Tebs Admin",
+                    CreatedAt = DateTime.Now,
+                    Email = "jayadev.chandran@external.totalenergies.com"
+                }
+            });
+            db.SaveChanges();
+        }
+        #endregion
     }
 
     /*
