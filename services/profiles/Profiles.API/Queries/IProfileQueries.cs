@@ -54,5 +54,6 @@ namespace EasyGas.Services.Profiles.Queries
 
         Task<List<DistributorCustomerModel>> GetCustomersListOfBusinessEntity(int businessEntityId, int distributerUserId);
         Task<BackendUserProfileModel> GetUserByCognitoUsername(string cognitoUsername);
+        Task<BackendUserProfileModel> GetUserByCognitoEmail(string email);
     }
 }

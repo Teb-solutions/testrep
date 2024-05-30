@@ -156,10 +156,19 @@ namespace Profiles.API.Controllers
         [HttpGet]
         [Route("details")]
         [ProducesResponseType(typeof(IEnumerable<BackendUserProfileModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetMyAccountDetails()
+        public async Task<IActionResult> GetAccountDetailsFromCognitoToken()
         {
             var cognitoUsername = _identityService.GetCognitoUsername();
             var userDetails = await _profileQueries.GetUserByCognitoUsername(cognitoUsername);
+            if (userDetails == null)
+            {
+                if (_identityService.IsB2E())
+                {
+                    var cognitoEmail = _identityService.GetCognitoUsername();
+                    userDetails = await _profileQueries.GetUserByCognitoEmail(cognitoEmail);
+                }
+            }
+
             if (userDetails == null) return BadRequest("User not found");
 
             return Ok(userDetails);
@@ -171,6 +180,11 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(CreateProfileResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateUnApprovedUser([FromBody] CreateUserModel request)
         {
+            if (!_identityService.IsB2E())
+            {
+                return BadRequest("User cannot be created for B2B");
+            }
+
             var cognitoUsername = _identityService.GetCognitoUsername();
             return await _identityService.CreateUnapprovedUser(request, cognitoUsername);
         }

@@ -796,6 +796,25 @@ namespace EasyGas.Services.Profiles.Queries
             return null;
         }
 
+        public async Task<BackendUserProfileModel> GetUserByCognitoEmail(string email)
+        {
+            var user = await _ctx.Users
+                .Include(p => p.Profile)
+                .Include(p => p.Branch)
+                .Include(p => p.Roles)
+                .ThenInclude(p => p.Role)
+                .Where(p => p.Profile.Email == email)
+                .FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                BackendUserProfileModel model = BackendUserProfileModel.FromUser(user);
+                return model;
+            }
+
+            return null;
+        }
+
         private string GetPhotoUrl(string photoUrl)
         {
             if (!string.IsNullOrEmpty(photoUrl))
