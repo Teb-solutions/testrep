@@ -138,13 +138,13 @@ namespace EasyGas.Shared.Formatters
         {
             try
             {
-                TimeZoneInfo tzi = TZConvert.GetTimeZoneInfo("India Standard Time");
+                //TimeZoneInfo tzi = TZConvert.GetTimeZoneInfo("India Standard Time");
                 //TimeZoneInfo tzi = TZConvert.GetTimeZoneInfo("E.Africa Standard Time"); //not working
-                DateTime IndiaTimeNow = DateTime.Now;
-                DateTime myConvertedDateTime = TimeZoneInfo.ConvertTime(
-                IndiaTimeNow, tzi);
+                DateTime timeNow = DateTime.Now;
+                //DateTime myConvertedDateTime = TimeZoneInfo.ConvertTime(
+                //IndiaTimeNow, tzi);
 
-                //myConvertedDateTime = myConvertedDateTime.AddMinutes(-150); //convert to kenya time for EasyGas kenya
+                DateTime myConvertedDateTime = timeNow.AddMinutes(210); //convert to india time for EasyGas india
 
                 return myConvertedDateTime;
             }
